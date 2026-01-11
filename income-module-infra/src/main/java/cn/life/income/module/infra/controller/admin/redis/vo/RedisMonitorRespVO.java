@@ -1,6 +1,5 @@
 package cn.life.income.module.infra.controller.admin.redis.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,36 +7,54 @@ import lombok.Data;
 import java.util.List;
 import java.util.Properties;
 
-@Schema(description = "管理后台 - Redis 监控信息 Response VO")
+/**
+ * 管理后台 - Redis 监控信息响应 VO
+ */
 @Data
 @Builder
 @AllArgsConstructor
 public class RedisMonitorRespVO {
 
-    @Schema(description = "Redis info 指令结果,具体字段，查看 Redis 文档", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * Redis info 指令结果，具体字段请参考 Redis 文档
+     */
     private Properties info;
 
-    @Schema(description = "Redis key 数量", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * Redis key 数量
+     * 示例值: 1024
+     */
     private Long dbSize;
 
-    @Schema(description = "CommandStat 数组", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * Redis 命令统计数组
+     */
     private List<CommandStat> commandStats;
 
-    @Schema(description = "Redis 命令统计结果")
+    /**
+     * Redis 命令统计信息
+     */
     @Data
     @Builder
     @AllArgsConstructor
     public static class CommandStat {
 
-        @Schema(description = "Redis 命令", requiredMode = Schema.RequiredMode.REQUIRED, example = "get")
+        /**
+         * Redis 命令名称
+         * 示例值: "get"
+         */
         private String command;
 
-        @Schema(description = "调用次数", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+        /**
+         * Redis 命令调用次数
+         * 示例值: 1024
+         */
         private Long calls;
 
-        @Schema(description = "消耗 CPU 秒数", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
+        /**
+         * Redis 命令消耗的 CPU 时间（秒）
+         * 示例值: 666
+         */
         private Long usec;
-
     }
-
 }

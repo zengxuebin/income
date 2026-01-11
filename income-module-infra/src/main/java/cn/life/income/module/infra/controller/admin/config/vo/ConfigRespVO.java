@@ -5,51 +5,70 @@ import cn.life.income.framework.excel.core.convert.DictConvert;
 import cn.life.income.module.infra.enums.DictTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 参数配置信息 Response VO")
+/**
+ * 管理后台 - 参数配置信息 Response VO
+ */
 @Data
 @ExcelIgnoreUnannotated
 public class ConfigRespVO {
 
-    @Schema(description = "参数配置序号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 参数配置序号
+     */
     @ExcelProperty("参数配置序号")
     private Long id;
 
-    @Schema(description = "参数分类", requiredMode = Schema.RequiredMode.REQUIRED, example = "biz")
+    /**
+     * 参数分类
+     */
     @ExcelProperty("参数分类")
     private String category;
 
-    @Schema(description = "参数名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "数据库名")
+    /**
+     * 参数名称
+     */
     @ExcelProperty("参数名称")
     private String name;
 
-    @Schema(description = "参数键名", requiredMode = Schema.RequiredMode.REQUIRED, example = "yunai.db.username")
+    /**
+     * 参数键名
+     */
     @ExcelProperty("参数键名")
     private String key;
 
-    @Schema(description = "参数键值", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 参数键值
+     */
     @ExcelProperty("参数键值")
     private String value;
 
-    @Schema(description = "参数类型，参见 SysConfigTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 参数类型，参见 SysConfigTypeEnum 枚举
+     */
     @ExcelProperty(value = "参数类型", converter = DictConvert.class)
     @DictFormat(DictTypeConstants.CONFIG_TYPE)
     private Integer type;
 
-    @Schema(description = "是否可见", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
+    /**
+     * 是否可见
+     */
     @ExcelProperty(value = "是否可见", converter = DictConvert.class)
     @DictFormat(DictTypeConstants.BOOLEAN_STRING)
     private Boolean visible;
 
-    @Schema(description = "备注", example = "备注一下很帅气！")
+    /**
+     * 备注
+     */
     @ExcelProperty("备注")
     private String remark;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    /**
+     * 创建时间
+     */
     @ExcelProperty("创建时间")
     private LocalDateTime createTime;
 

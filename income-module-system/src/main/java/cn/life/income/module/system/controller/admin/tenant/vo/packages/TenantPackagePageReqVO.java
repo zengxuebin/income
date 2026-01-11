@@ -1,7 +1,6 @@
 package cn.life.income.module.system.controller.admin.tenant.vo.packages;
 
 import cn.life.income.framework.common.pojo.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -11,22 +10,33 @@ import java.time.LocalDateTime;
 
 import static cn.life.income.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 租户套餐分页 Request VO")
+/**
+ * 管理后台 - 租户套餐分页 Request VO
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class TenantPackagePageReqVO extends PageParam {
 
-    @Schema(description = "套餐名", example = "VIP")
+    /**
+     * 套餐名
+     */
     private String name;
 
-    @Schema(description = "状态", example = "1")
+    /**
+     * 状态
+     */
     private Integer status;
 
-    @Schema(description = "备注", example = "好")
+    /**
+     * 备注
+     */
     private String remark;
 
+    /**
+     * 创建时间
+     */
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @Schema(description = "创建时间")
     private LocalDateTime[] createTime;
+
 }

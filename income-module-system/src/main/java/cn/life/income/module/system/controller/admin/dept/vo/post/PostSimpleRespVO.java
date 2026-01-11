@@ -1,19 +1,32 @@
 package cn.life.income.module.system.controller.admin.dept.vo.post;
 
 import cn.idev.excel.annotation.ExcelProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 岗位信息的精简 Response VO")
+/**
+ * 管理后台 - 岗位信息的精简 Response VO
+ * <p>
+ * 该类用于返回岗位的精简信息，主要用于下拉选项或快速展示。
+ * </p>
+ */
 @Data
 public class PostSimpleRespVO {
 
-    @Schema(description = "岗位序号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 岗位序号
+     * <p>
+     * 唯一标识每个岗位。
+     * </p>
+     */
     @ExcelProperty("岗位序号")
     private Long id;
 
-    @Schema(description = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "小土豆")
+    /**
+     * 岗位名称
+     * <p>
+     * 如“小土豆”，用于表示岗位的名称。
+     * </p>
+     */
     @ExcelProperty("岗位名称")
     private String name;
-
 }

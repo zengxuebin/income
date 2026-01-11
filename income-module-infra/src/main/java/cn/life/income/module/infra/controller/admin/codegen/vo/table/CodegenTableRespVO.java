@@ -1,72 +1,117 @@
 package cn.life.income.module.infra.controller.admin.codegen.vo.table;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 代码生成表定义 Response VO")
+/**
+ * 管理后台 - 代码生成表定义 Response VO
+ */
 @Data
 public class CodegenTableRespVO {
 
-    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 编号
+     */
     private Long id;
 
-    @Schema(description = "生成场景，参见 CodegenSceneEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 生成场景，参见 CodegenSceneEnum 枚举
+     */
     private Integer scene;
 
-    @Schema(description = "表名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "income")
+    /**
+     * 表名称
+     */
     private String tableName;
 
-    @Schema(description = "表描述", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    /**
+     * 表描述
+     */
     private String tableComment;
 
-    @Schema(description = "备注", example = "我是备注")
+    /**
+     * 备注
+     */
     private String remark;
 
-    @Schema(description = "模块名", requiredMode = Schema.RequiredMode.REQUIRED, example = "system")
+    /**
+     * 模块名
+     */
     private String moduleName;
 
-    @Schema(description = "业务名", requiredMode = Schema.RequiredMode.REQUIRED, example = "codegen")
+    /**
+     * 业务名
+     */
     private String businessName;
 
-    @Schema(description = "类名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "CodegenTable")
+    /**
+     * 类名称
+     */
     private String className;
 
-    @Schema(description = "类描述", requiredMode = Schema.RequiredMode.REQUIRED, example = "代码生成器的表定义")
+    /**
+     * 类描述
+     */
     private String classComment;
 
-    @Schema(description = "作者", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道源码")
+    /**
+     * 作者
+     */
     private String author;
 
-    @Schema(description = "模板类型，参见 CodegenTemplateTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 模板类型，参见 CodegenTemplateTypeEnum 枚举
+     */
     private Integer templateType;
 
-    @Schema(description = "前端类型，参见 CodegenFrontTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "20")
+    /**
+     * 前端类型，参见 CodegenFrontTypeEnum 枚举
+     */
     private Integer frontType;
 
-    @Schema(description = "父菜单编号", example = "1024")
+    /**
+     * 父菜单编号
+     */
     private Long parentMenuId;
 
-    @Schema(description = "主表的编号", example = "2048")
+    /**
+     * 主表的编号
+     */
     private Long masterTableId;
-    @Schema(description = "子表关联主表的字段编号", example = "4096")
+
+    /**
+     * 子表关联主表的字段编号
+     */
     private Long subJoinColumnId;
-    @Schema(description = "主表与子表是否一对多", example = "4096")
+
+    /**
+     * 主表与子表是否一对多
+     */
     private Boolean subJoinMany;
 
-    @Schema(description = "树表的父字段编号", example = "8192")
+    /**
+     * 树表的父字段编号
+     */
     private Long treeParentColumnId;
-    @Schema(description = "树表的名字字段编号", example = "16384")
+
+    /**
+     * 树表的名字字段编号
+     */
     private Long treeNameColumnId;
 
-    @Schema(description = "主键编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 主键编号
+     */
     private Integer dataSourceConfigId;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    @Schema(description = "更新时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
-
 }

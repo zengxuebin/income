@@ -1,21 +1,32 @@
 package cn.life.income.module.system.controller.admin.mail.vo.account;
 
 import cn.life.income.framework.common.pojo.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-@Schema(description = "管理后台 - 邮箱账号分页 Request VO")
+/**
+ * 管理后台 - 邮箱账号分页 Request VO
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class MailAccountPageReqVO extends PageParam {
 
-    @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "incomeyuanma@123.com")
+    /**
+     * 邮箱
+     *
+     * 用户邮箱地址。用于查询特定邮箱账号。
+     * 示例：incomeyuanma@123.com
+     */
     private String mail;
 
-    @Schema(description = "用户名" , requiredMode = Schema.RequiredMode.REQUIRED , example = "income")
+    /**
+     * 用户名
+     *
+     * 邮箱账号的用户名。用于查询特定用户名的邮箱账号。
+     * 示例：income
+     */
     private String username;
 
 }

@@ -1,16 +1,21 @@
 package cn.life.income.module.system.controller.app.tenant.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "用户 App - 租户 Response VO")
+/**
+ * 用户 App - 租户 Response VO
+ */
 @Data
 public class AppTenantRespVO {
 
-    @Schema(description = "租户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 租户编号
+     */
     private Long id;
 
-    @Schema(description = "租户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    /**
+     * 租户名
+     */
     private String name;
 
 }

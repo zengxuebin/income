@@ -1,27 +1,37 @@
 package cn.life.income.module.infra.controller.admin.db.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 数据源配置 Response VO")
+/**
+ * 管理后台 - 数据源配置 Response VO
+ */
 @Data
 public class DataSourceConfigRespVO {
 
-    @Schema(description = "主键编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 主键编号
+     */
     private Long id;
 
-    @Schema(description = "数据源名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "test")
+    /**
+     * 数据源名称
+     */
     private String name;
 
-    @Schema(description = "数据源连接", requiredMode = Schema.RequiredMode.REQUIRED, example = "jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro")
+    /**
+     * 数据源连接
+     */
     private String url;
 
-    @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "root")
+    /**
+     * 用户名
+     */
     private String username;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
 }

@@ -3,14 +3,9 @@ package cn.life.income.module.infra.controller.app.file;
 import cn.hutool.core.io.IoUtil;
 import cn.life.income.framework.common.pojo.CommonResult;
 import cn.life.income.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
-import cn.life.income.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
+import cn.life.income.module.infra.controller.admin.file.vo.file.FilePreSignedUrlRespVO;
 import cn.life.income.module.infra.controller.app.file.vo.AppFileUploadReqVO;
 import cn.life.income.module.infra.service.file.FileService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
@@ -21,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "用户 App - 文件存储")
+/**
+ * 用户 App - 文件存储管理
+ */
 @RestController
 @RequestMapping("/infra/file")
 @Validated
@@ -31,11 +28,14 @@ public class AppFileController {
     @Resource
     private FileService fileService;
 
+    /**
+     * 上传文件
+     *
+     * @param uploadReqVO 文件上传请求参数，包含文件和上传目录等信息
+     * @return 返回上传结果，包括文件的唯一标识
+     * @throws Exception 如果文件处理失败
+     */
     @PostMapping("/upload")
-    @Operation(summary = "上传文件")
-    @Parameter(name = "file", description = "文件附件", required = true,
-            schema = @Schema(type = "string", format = "binary"))
-    @PermitAll
     public CommonResult<String> uploadFile(AppFileUploadReqVO uploadReqVO) throws Exception {
         MultipartFile file = uploadReqVO.getFile();
         byte[] content = IoUtil.readBytes(file.getInputStream());
@@ -43,23 +43,29 @@ public class AppFileController {
                 uploadReqVO.getDirectory(), file.getContentType()));
     }
 
+    /**
+     * 获取文件预签名地址（用于文件上传）
+     *
+     * @param name 文件名称
+     * @param directory 文件目录（可选）
+     * @return 返回文件上传的预签名 URL
+     */
     @GetMapping("/presigned-url")
-    @Operation(summary = "获取文件预签名地址（上传）", description = "模式二：前端上传文件：用于前端直接上传七牛、阿里云 OSS 等文件存储器")
-    @Parameters({
-            @Parameter(name = "name", description = "文件名称", required = true),
-            @Parameter(name = "directory", description = "文件目录")
-    })
-    public CommonResult<FilePresignedUrlRespVO> getFilePresignedUrl(
+    public CommonResult<FilePreSignedUrlRespVO> getFilePresignedUrl(
             @RequestParam("name") String name,
             @RequestParam(value = "directory", required = false) String directory) {
         return success(fileService.presignPutUrl(name, directory));
     }
 
+    /**
+     * 创建文件记录（用于记录通过预签名 URL 上传的文件）
+     *
+     * @param createReqVO 创建文件请求参数，包括文件的元数据
+     * @return 返回创建的文件 ID
+     */
     @PostMapping("/create")
-    @Operation(summary = "创建文件", description = "模式二：前端上传文件：配合 presigned-url 接口，记录上传了上传的文件")
     @PermitAll
     public CommonResult<Long> createFile(@Valid @RequestBody FileCreateReqVO createReqVO) {
         return success(fileService.createFile(createReqVO));
     }
-
 }

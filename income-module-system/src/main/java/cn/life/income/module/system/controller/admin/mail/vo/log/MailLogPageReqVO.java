@@ -1,7 +1,6 @@
 package cn.life.income.module.system.controller.admin.mail.vo.log;
 
 import cn.life.income.framework.common.pojo.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -11,31 +10,68 @@ import java.time.LocalDateTime;
 
 import static cn.life.income.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 邮箱日志分页 Request VO")
+/**
+ * 管理后台 - 邮箱日志分页 Request VO
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class MailLogPageReqVO extends PageParam {
 
-    @Schema(description = "用户编号", example = "30883")
+    /**
+     * 用户编号
+     *
+     * 用于标识邮箱日志对应的用户。
+     * 示例：30883
+     */
     private Long userId;
 
-    @Schema(description = "用户类型，参见 UserTypeEnum 枚举", example = "2")
+    /**
+     * 用户类型
+     *
+     * 用户类型，参见 UserTypeEnum 枚举定义。用于区分不同类型的用户。
+     * 示例：2
+     */
     private Integer userType;
 
-    @Schema(description = "接收邮箱地址，模糊匹配", example = "76854@qq.com")
+    /**
+     * 接收邮箱地址
+     *
+     * 该邮箱地址接收到的邮件，支持模糊匹配。
+     * 示例：76854@qq.com
+     */
     private String toMail;
 
-    @Schema(description = "邮箱账号编号", example = "18107")
+    /**
+     * 邮箱账号编号
+     *
+     * 该日志记录的发送邮箱账号的编号。
+     * 示例：18107
+     */
     private Long accountId;
 
-    @Schema(description = "模板编号", example = "5678")
+    /**
+     * 模板编号
+     *
+     * 邮件使用的模板编号，帮助识别邮件内容模板。
+     * 示例：5678
+     */
     private Long templateId;
 
-    @Schema(description = "发送状态，参见 MailSendStatusEnum 枚举", example = "1")
+    /**
+     * 发送状态
+     *
+     * 邮件发送状态，参见 MailSendStatusEnum 枚举。用于标识邮件是否成功发送。
+     * 示例：1
+     */
     private Integer sendStatus;
 
-    @Schema(description = "发送时间")
+    /**
+     * 发送时间
+     *
+     * 邮件发送的时间范围，用于过滤特定时间段内的日志。
+     * 示例：[2022-07-01 00:00:00, 2022-07-01 23:59:59]
+     */
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] sendTime;
 

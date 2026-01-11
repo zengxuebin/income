@@ -1,18 +1,27 @@
 package cn.life.income.module.system.controller.admin.permission.vo.role;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "管理后台 - 角色精简信息 Response VO")
+/**
+ * 管理后台 - 角色精简信息 Response VO
+ * 仅包含角色的基本信息，用于角色选择等场景
+ */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoleSimpleRespVO {
 
-    @Schema(description = "角色编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 角色编号
+     * 唯一标识角色
+     */
     private Long id;
 
-    @Schema(description = "角色名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    /**
+     * 角色名称
+     * 显示为角色的名称
+     */
     private String name;
-
 }

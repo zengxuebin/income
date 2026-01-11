@@ -3,7 +3,7 @@ package cn.life.income.module.infra.service.file;
 import cn.life.income.framework.common.pojo.PageResult;
 import cn.life.income.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
 import cn.life.income.module.infra.controller.admin.file.vo.file.FilePageReqVO;
-import cn.life.income.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
+import cn.life.income.module.infra.controller.admin.file.vo.file.FilePreSignedUrlRespVO;
 import cn.life.income.module.infra.dal.dataobject.file.FileDO;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -43,7 +43,7 @@ public interface FileService {
      * @param directory 目录
      * @return 预签名地址信息
      */
-    FilePresignedUrlRespVO presignPutUrl(@NotEmpty(message = "文件名不能为空") String name,
+    FilePreSignedUrlRespVO presignPutUrl(@NotEmpty(message = "文件名不能为空") String name,
                                          String directory);
     /**
      * 生成文件预签名地址信息，用于读取

@@ -1,7 +1,6 @@
 package cn.life.income.module.system.controller.admin.mail.vo.template;
 
 import cn.life.income.framework.common.pojo.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -11,26 +10,50 @@ import java.time.LocalDateTime;
 
 import static cn.life.income.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 邮件模版分页 Request VO")
+/**
+ * 管理后台 - 邮件模板分页请求对象
+ *
+ * 用于分页查询邮件模板的请求参数，包括模板状态、标识、名称、账号编号等信息。
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class MailTemplatePageReqVO extends PageParam {
 
-    @Schema(description = "状态，参见 CommonStatusEnum 枚举", example = "1")
+    /**
+     * 状态
+     *
+     * 邮件模板的状态，参见 `CommonStatusEnum` 枚举。例如：1表示启用，0表示禁用。
+     */
     private Integer status;
 
-    @Schema(description = "标识，模糊匹配", example = "code_1024")
+    /**
+     * 标识
+     *
+     * 邮件模板的编号或标识，支持模糊匹配查询。
+     */
     private String code;
 
-    @Schema(description = "名称，模糊匹配", example = "芋头")
+    /**
+     * 名称
+     *
+     * 邮件模板的名称，支持模糊匹配查询。
+     */
     private String name;
 
-    @Schema(description = "账号编号", example = "2048")
+    /**
+     * 账号编号
+     *
+     * 关联的邮箱账号编号，用户可以按此字段过滤模板。
+     */
     private Long accountId;
 
-    @Schema(description = "创建时间")
+    /**
+     * 创建时间
+     *
+     * 邮件模板的创建时间范围，支持时间区间查询。
+     * 使用格式 `yyyy-MM-dd HH:mm:ss`。
+     */
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;
-
 }

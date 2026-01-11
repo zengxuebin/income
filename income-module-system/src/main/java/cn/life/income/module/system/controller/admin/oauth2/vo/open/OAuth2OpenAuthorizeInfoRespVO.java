@@ -1,38 +1,52 @@
 package cn.life.income.module.system.controller.admin.oauth2.vo.open;
 
 import cn.life.income.framework.common.core.KeyValue;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - 授权页的信息 Response VO")
+/**
+ * 管理后台 - 授权页的信息 Response VO
+ * 该类表示返回给客户端的授权页信息，包含客户端信息以及授权范围的选中情况。
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OAuth2OpenAuthorizeInfoRespVO {
 
     /**
-     * 客户端
+     * 客户端信息
+     * 包括客户端的名称和图标等信息
      */
     private Client client;
 
-    @Schema(description = "scope 的选中信息,使用 List 保证有序性，Key 是 scope，Value 为是否选中", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * scope 的选中信息
+     * 使用 List 保证有序性，Key 是 scope，Value 为是否选中
+     */
     private List<KeyValue<String, Boolean>> scopes;
 
+    /**
+     * 客户端信息类
+     * 包含应用的基本信息，如应用名称和图标。
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Client {
 
-        @Schema(description = "应用名", requiredMode = Schema.RequiredMode.REQUIRED, example = "土豆")
+        /**
+         * 应用名
+         * 客户端应用的名称
+         */
         private String name;
 
-        @Schema(description = "应用图标", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn/xx.png")
+        /**
+         * 应用图标
+         * 客户端应用的图标 URL
+         */
         private String logo;
-
     }
-
 }

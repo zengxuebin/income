@@ -1,46 +1,93 @@
 package cn.life.income.module.system.controller.admin.mail.vo.template;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - 邮件末班 Response VO")
+/**
+ * 管理后台 - 邮件模板响应对象
+ *
+ * 用于返回邮件模板的详细信息，包括模板的基本信息、状态、参数等。
+ */
 @Data
 public class MailTemplateRespVO {
 
-    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 编号
+     *
+     * 唯一标识邮件模板的ID。
+     */
     private Long id;
 
-    @Schema(description = "模版名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "测试名字")
+    /**
+     * 模板名称
+     *
+     * 邮件模板的名称。
+     */
     private String name;
 
-    @Schema(description = "模版编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "test")
+    /**
+     * 模板编号
+     *
+     * 唯一标识一个邮件模板的编号。
+     */
     private String code;
 
-    @Schema(description = "发送的邮箱账号编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 发送的邮箱账号编号
+     *
+     * 表示该模板使用的邮箱账号的编号。
+     */
     private Long accountId;
 
-    @Schema(description = "发送人名称", example = "芋头")
+    /**
+     * 发送人名称
+     *
+     * 邮件模板中发件人的名称。
+     */
     private String nickname;
 
-    @Schema(description = "标题", requiredMode = Schema.RequiredMode.REQUIRED, example = "注册成功")
+    /**
+     * 标题
+     *
+     * 邮件模板的标题。
+     */
     private String title;
 
-    @Schema(description = "内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "你好，注册成功啦")
+    /**
+     * 内容
+     *
+     * 邮件模板的内容。
+     */
     private String content;
 
-    @Schema(description = "参数数组", example = "name,code")
+    /**
+     * 参数数组
+     *
+     * 模板中使用的参数名称列表（如：name, code）。
+     */
     private List<String> params;
 
-    @Schema(description = "状态，参见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 状态
+     *
+     * 邮件模板的状态，参见 `CommonStatusEnum` 枚举。
+     */
     private Integer status;
 
-    @Schema(description = "备注", example = "奥特曼")
+    /**
+     * 备注
+     *
+     * 邮件模板的备注信息。
+     */
     private String remark;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     *
+     * 邮件模板的创建时间。
+     */
     private LocalDateTime createTime;
 
 }

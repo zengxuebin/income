@@ -1,48 +1,73 @@
 package cn.life.income.module.system.controller.admin.socail.vo.user;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 社交用户 Response VO")
+/**
+ * 管理后台 - 社交用户 Response VO
+ */
 @Data
 public class SocialUserRespVO {
 
-    @Schema(description = "主键(自增策略)", requiredMode = Schema.RequiredMode.REQUIRED, example = "14569")
+    /**
+     * 主键(自增策略)
+     */
     private Long id;
 
-    @Schema(description = "社交平台的类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "30")
+    /**
+     * 社交平台的类型
+     */
     private Integer type;
 
-    @Schema(description = "社交 openid", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
+    /**
+     * 社交 openid
+     */
     private String openid;
 
-    @Schema(description = "社交 token", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
+    /**
+     * 社交 token
+     */
     private String token;
 
-    @Schema(description = "原始 Token 数据，一般是 JSON 格式", requiredMode = Schema.RequiredMode.REQUIRED, example = "{}")
+    /**
+     * 原始 Token 数据，一般是 JSON 格式
+     */
     private String rawTokenInfo;
 
-    @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
+    /**
+     * 用户昵称
+     */
     private String nickname;
 
-    @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.png")
+    /**
+     * 用户头像
+     */
     private String avatar;
 
-    @Schema(description = "原始用户数据，一般是 JSON 格式", requiredMode = Schema.RequiredMode.REQUIRED, example = "{}")
+    /**
+     * 原始用户数据，一般是 JSON 格式
+     */
     private String rawUserInfo;
 
-    @Schema(description = "最后一次的认证 code", requiredMode = Schema.RequiredMode.REQUIRED, example = "666666")
+    /**
+     * 最后一次的认证 code
+     */
     private String code;
 
-    @Schema(description = "最后一次的认证 state", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
+    /**
+     * 最后一次的认证 state
+     */
     private String state;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    @Schema(description = "更新时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
 
 }

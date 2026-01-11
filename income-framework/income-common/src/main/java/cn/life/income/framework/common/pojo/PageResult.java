@@ -1,20 +1,26 @@
 package cn.life.income.framework.common.pojo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Schema(description = "分页结果")
+/**
+ * 分页结果
+ * @param <T>
+ */
 @Data
 public final class PageResult<T> implements Serializable {
 
-    @Schema(description = "总量", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 总量
+     */
     private Long total;
 
-    @Schema(description = "数据", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 数据
+     */
     private List<T> list;
 
     public PageResult() {

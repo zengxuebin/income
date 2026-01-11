@@ -11,22 +11,21 @@ import cn.life.income.module.system.controller.admin.socail.vo.user.SocialUserRe
 import cn.life.income.module.system.controller.admin.socail.vo.user.SocialUserUnbindReqVO;
 import cn.life.income.module.system.dal.dataobject.social.SocialUserDO;
 import cn.life.income.module.system.service.social.SocialUserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import java.util.List;
 
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 import static cn.life.income.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.life.income.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 社交用户")
+/**
+ * 管理后台 - 社交用户
+ */
 @RestController
 @RequestMapping("/system/social-user")
 @Validated
@@ -35,48 +34,76 @@ public class SocialUserController {
     @Resource
     private SocialUserService socialUserService;
 
+    /**
+     * 社交绑定，使用 code 授权码
+     *
+     * @param reqVO 请求体，包含社交用户绑定信息
+     * @return 操作是否成功
+     */
     @PostMapping("/bind")
-    @Operation(summary = "社交绑定，使用 code 授权码")
     public CommonResult<Boolean> socialBind(@RequestBody @Valid SocialUserBindReqVO reqVO) {
-        socialUserService.bindSocialUser(new SocialUserBindReqDTO().setSocialType(reqVO.getType())
-                        .setCode(reqVO.getCode()).setState(reqVO.getState())
-                        .setUserId(getLoginUserId()).setUserType(UserTypeEnum.ADMIN.getValue()));
+        socialUserService.bindSocialUser(new SocialUserBindReqDTO()
+                .setSocialType(reqVO.getType())
+                .setCode(reqVO.getCode())
+                .setState(reqVO.getState())
+                .setUserId(getLoginUserId())
+                .setUserType(UserTypeEnum.ADMIN.getValue()));
         return CommonResult.success(true);
     }
 
+    /**
+     * 取消社交绑定
+     *
+     * @param reqVO 请求体，包含要解绑的社交用户信息
+     * @return 操作是否成功
+     */
     @DeleteMapping("/unbind")
-    @Operation(summary = "取消社交绑定")
     public CommonResult<Boolean> socialUnbind(@RequestBody SocialUserUnbindReqVO reqVO) {
         socialUserService.unbindSocialUser(getLoginUserId(), UserTypeEnum.ADMIN.getValue(), reqVO.getType(), reqVO.getOpenid());
         return CommonResult.success(true);
     }
 
+    /**
+     * 获得绑定社交用户列表
+     *
+     * @return 社交用户绑定信息列表
+     */
     @GetMapping("/get-bind-list")
-    @Operation(summary = "获得绑定社交用户列表")
     public CommonResult<List<SocialUserRespVO>> getBindSocialUserList() {
         List<SocialUserDO> list = socialUserService.getSocialUserList(getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(convertList(list, socialUser -> new SocialUserRespVO() // 返回精简信息
-                .setId(socialUser.getId()).setType(socialUser.getType()).setOpenid(socialUser.getOpenid())
-                .setNickname(socialUser.getNickname()).setAvatar(socialUser.getNickname())));
+                .setId(socialUser.getId())
+                .setType(socialUser.getType())
+                .setOpenid(socialUser.getOpenid())
+                .setNickname(socialUser.getNickname())
+                .setAvatar(socialUser.getNickname())));
     }
 
     // ==================== 社交用户 CRUD ====================
 
+    /**
+     * 获得社交用户信息
+     *
+     * @param id 用户编号
+     * @return 社交用户信息
+     */
     @GetMapping("/get")
-    @Operation(summary = "获得社交用户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:social-user:query')")
     public CommonResult<SocialUserRespVO> getSocialUser(@RequestParam("id") Long id) {
         SocialUserDO socialUser = socialUserService.getSocialUser(id);
         return success(BeanUtils.toBean(socialUser, SocialUserRespVO.class));
     }
 
+    /**
+     * 获得社交用户分页列表
+     *
+     * @param pageVO 分页查询条件
+     * @return 分页结果
+     */
     @GetMapping("/page")
-    @Operation(summary = "获得社交用户分页")
     @PreAuthorize("@ss.hasPermission('system:social-user:query')")
     public CommonResult<PageResult<SocialUserRespVO>> getSocialUserPage(@Valid SocialUserPageReqVO pageVO) {
         PageResult<SocialUserDO> pageResult = socialUserService.getSocialUserPage(pageVO);
         return success(BeanUtils.toBean(pageResult, SocialUserRespVO.class));
     }
-
 }

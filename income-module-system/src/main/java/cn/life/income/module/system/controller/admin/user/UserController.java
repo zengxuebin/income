@@ -14,10 +14,6 @@ import cn.life.income.module.system.dal.dataobject.user.AdminUserDO;
 import cn.life.income.module.system.enums.common.SexEnum;
 import cn.life.income.module.system.service.dept.DeptService;
 import cn.life.income.module.system.service.user.AdminUserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -35,7 +31,9 @@ import static cn.life.income.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 import static cn.life.income.framework.common.util.collection.CollectionUtils.convertList;
 
-@Tag(name = "管理后台 - 用户")
+/**
+ * 管理后台 - 用户控制器
+ */
 @RestController
 @RequestMapping("/system/user")
 @Validated
@@ -46,58 +44,89 @@ public class UserController {
     @Resource
     private DeptService deptService;
 
+    /**
+     * 新增用户
+     *
+     * @param reqVO 用户创建请求参数
+     * @return 新用户的 ID
+     */
     @PostMapping("/create")
-    @Operation(summary = "新增用户")
     @PreAuthorize("@ss.hasPermission('system:user:create')")
     public CommonResult<Long> createUser(@Valid @RequestBody UserSaveReqVO reqVO) {
         Long id = userService.createUser(reqVO);
         return success(id);
     }
 
+    /**
+     * 修改用户信息
+     *
+     * @param reqVO 用户修改请求参数
+     * @return 操作结果
+     */
     @PutMapping("update")
-    @Operation(summary = "修改用户")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
     public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveReqVO reqVO) {
         userService.updateUser(reqVO);
         return success(true);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param id 用户 ID
+     * @return 操作结果
+     */
     @DeleteMapping("/delete")
-    @Operation(summary = "删除用户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
-    @PreAuthorize("@ss.hasPermission('system:user:delete')")
     public CommonResult<Boolean> deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
         return success(true);
     }
 
+    /**
+     * 批量删除用户
+     *
+     * @param ids 用户 ID 列表
+     * @return 操作结果
+     */
     @DeleteMapping("/delete-list")
-    @Parameter(name = "ids", description = "编号列表", required = true)
-    @Operation(summary = "批量删除用户")
-    @PreAuthorize("@ss.hasPermission('system:user:delete')")
     public CommonResult<Boolean> deleteUserList(@RequestParam("ids") List<Long> ids) {
         userService.deleteUserList(ids);
         return success(true);
     }
 
+    /**
+     * 重置用户密码
+     *
+     * @param reqVO 密码重置请求参数
+     * @return 操作结果
+     */
     @PutMapping("/update-password")
-    @Operation(summary = "重置用户密码")
     @PreAuthorize("@ss.hasPermission('system:user:update-password')")
     public CommonResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordReqVO reqVO) {
         userService.updateUserPassword(reqVO.getId(), reqVO.getPassword());
         return success(true);
     }
 
+    /**
+     * 修改用户状态
+     *
+     * @param reqVO 用户状态修改请求参数
+     * @return 操作结果
+     */
     @PutMapping("/update-status")
-    @Operation(summary = "修改用户状态")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
     public CommonResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusReqVO reqVO) {
         userService.updateUserStatus(reqVO.getId(), reqVO.getStatus());
         return success(true);
     }
 
+    /**
+     * 获取用户分页列表
+     *
+     * @param pageReqVO 分页请求参数
+     * @return 用户分页列表
+     */
     @GetMapping("/page")
-    @Operation(summary = "获得用户分页列表")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
     public CommonResult<PageResult<UserRespVO>> getUserPage(@Valid UserPageReqVO pageReqVO) {
         // 获得用户分页列表
@@ -112,8 +141,12 @@ public class UserController {
                 pageResult.getTotal()));
     }
 
+    /**
+     * 获取用户精简信息列表
+     *
+     * @return 用户精简信息列表
+     */
     @GetMapping({"/list-all-simple", "/simple-list"})
-    @Operation(summary = "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
     public CommonResult<List<UserSimpleRespVO>> getSimpleUserList() {
         List<AdminUserDO> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // 拼接数据
@@ -122,9 +155,13 @@ public class UserController {
         return success(UserConvert.INSTANCE.convertSimpleList(list, deptMap));
     }
 
+    /**
+     * 获取用户详情
+     *
+     * @param id 用户 ID
+     * @return 用户详情
+     */
     @GetMapping("/get")
-    @Operation(summary = "获得用户详情")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
     public CommonResult<UserRespVO> getUser(@RequestParam("id") Long id) {
         AdminUserDO user = userService.getUser(id);
@@ -136,8 +173,14 @@ public class UserController {
         return success(UserConvert.INSTANCE.convert(user, dept));
     }
 
+    /**
+     * 导出用户数据为 Excel 文件
+     *
+     * @param exportReqVO 导出请求参数
+     * @param response    响应对象
+     * @throws IOException 输出异常
+     */
     @GetMapping("/export-excel")
-    @Operation(summary = "导出用户")
     @PreAuthorize("@ss.hasPermission('system:user:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportUserList(@Validated UserPageReqVO exportReqVO,
@@ -151,8 +194,13 @@ public class UserController {
                 UserConvert.INSTANCE.convertList(list, deptMap));
     }
 
+    /**
+     * 获取导入用户模板
+     *
+     * @param response 响应对象
+     * @throws IOException 输出异常
+     */
     @GetMapping("/get-import-template")
-    @Operation(summary = "获得导入用户模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
         // 手动创建导出 demo
         List<UserImportExcelVO> list = Arrays.asList(
@@ -165,12 +213,15 @@ public class UserController {
         ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelVO.class, list);
     }
 
+    /**
+     * 导入用户数据
+     *
+     * @param file           导入的文件
+     * @param updateSupport 是否支持更新
+     * @return 导入结果
+     * @throws Exception 导入异常
+     */
     @PostMapping("/import")
-    @Operation(summary = "导入用户")
-    @Parameters({
-            @Parameter(name = "file", description = "Excel 文件", required = true),
-            @Parameter(name = "updateSupport", description = "是否支持更新，默认为 false", example = "true")
-    })
     @PreAuthorize("@ss.hasPermission('system:user:import')")
     public CommonResult<UserImportRespVO> importExcel(@RequestParam("file") MultipartFile file,
                                                       @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {

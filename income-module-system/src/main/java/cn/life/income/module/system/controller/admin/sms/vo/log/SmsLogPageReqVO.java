@@ -1,7 +1,6 @@
 package cn.life.income.module.system.controller.admin.sms.vo.log;
 
 import cn.life.income.framework.common.pojo.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -11,33 +10,56 @@ import java.time.LocalDateTime;
 
 import static cn.life.income.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 短信日志分页 Request VO")
+/**
+ * 管理后台 - 短信日志分页 Request VO
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class SmsLogPageReqVO extends PageParam {
 
-    @Schema(description = "短信渠道编号", example = "10")
+    /**
+     * 短信渠道编号
+     * 示例值：10
+     */
     private Long channelId;
 
-    @Schema(description = "模板编号", example = "20")
+    /**
+     * 模板编号
+     * 示例值：20
+     */
     private Long templateId;
 
-    @Schema(description = "手机号", example = "15601691300")
+    /**
+     * 手机号
+     * 示例值：15601691300
+     */
     private String mobile;
 
-    @Schema(description = "发送状态，参见 SmsSendStatusEnum 枚举类", example = "1")
+    /**
+     * 发送状态，参见 SmsSendStatusEnum 枚举类
+     * 示例值：1
+     */
     private Integer sendStatus;
 
+    /**
+     * 发送时间
+     * 格式：[2022-07-01 00:00:00, 2022-07-01 23:59:59]
+     */
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @Schema(description = "发送时间")
     private LocalDateTime[] sendTime;
 
-    @Schema(description = "接收状态，参见 SmsReceiveStatusEnum 枚举类", example = "0")
+    /**
+     * 接收状态，参见 SmsReceiveStatusEnum 枚举类
+     * 示例值：0
+     */
     private Integer receiveStatus;
 
+    /**
+     * 接收时间
+     * 格式：[2022-07-01 00:00:00, 2022-07-01 23:59:59]
+     */
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @Schema(description = "接收时间")
     private LocalDateTime[] receiveTime;
 
 }

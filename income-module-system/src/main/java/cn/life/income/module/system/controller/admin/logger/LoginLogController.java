@@ -10,8 +10,6 @@ import cn.life.income.module.system.controller.admin.logger.vo.loginlog.LoginLog
 import cn.life.income.module.system.controller.admin.logger.vo.loginlog.LoginLogRespVO;
 import cn.life.income.module.system.dal.dataobject.logger.LoginLogDO;
 import cn.life.income.module.system.service.logger.LoginLogService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -27,7 +25,9 @@ import java.util.List;
 import static cn.life.income.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 登录日志")
+/**
+ * 管理后台 - 登录日志
+ */
 @RestController
 @RequestMapping("/system/login-log")
 @Validated
@@ -36,24 +36,37 @@ public class LoginLogController {
     @Resource
     private LoginLogService loginLogService;
 
+    /**
+     * 获得登录日志
+     * @param id 登录日志ID
+     * @return 登录日志响应
+     */
     @GetMapping("/get")
-    @Operation(summary = "获得登录日志")
     @PreAuthorize("@ss.hasPermission('system:login-log:query')")
     public CommonResult<LoginLogRespVO> getLoginLog(Long id) {
         LoginLogDO loginLog = loginLogService.getLoginLog(id);
         return success(BeanUtils.toBean(loginLog, LoginLogRespVO.class));
     }
 
+    /**
+     * 获得登录日志分页列表
+     * @param pageReqVO 分页请求参数
+     * @return 登录日志分页结果
+     */
     @GetMapping("/page")
-    @Operation(summary = "获得登录日志分页列表")
     @PreAuthorize("@ss.hasPermission('system:login-log:query')")
     public CommonResult<PageResult<LoginLogRespVO>> getLoginLogPage(@Valid LoginLogPageReqVO pageReqVO) {
         PageResult<LoginLogDO> pageResult = loginLogService.getLoginLogPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, LoginLogRespVO.class));
     }
 
+    /**
+     * 导出登录日志 Excel
+     * @param response HttpServletResponse
+     * @param exportReqVO 导出请求参数
+     * @throws IOException IO异常
+     */
     @GetMapping("/export-excel")
-    @Operation(summary = "导出登录日志 Excel")
     @PreAuthorize("@ss.hasPermission('system:login-log:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportLoginLog(HttpServletResponse response, @Valid LoginLogPageReqVO exportReqVO) throws IOException {

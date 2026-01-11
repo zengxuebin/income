@@ -2,7 +2,6 @@ package cn.life.income.module.system.controller.admin.dept.vo.dept;
 
 import cn.life.income.framework.common.enums.CommonStatusEnum;
 import cn.life.income.framework.common.validation.InEnum;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import jakarta.validation.constraints.Email;
@@ -10,38 +9,83 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "管理后台 - 部门创建/修改 Request VO")
+/**
+ * 管理后台 - 部门创建/修改请求数据传输对象 (Request VO)
+ * <p>
+ * 该类用于表示部门的创建或修改请求信息，包括部门名称、父部门、负责人、联系电话等字段。
+ * </p>
+ */
 @Data
 public class DeptSaveReqVO {
 
-    @Schema(description = "部门编号", example = "1024")
+    /**
+     * 部门编号
+     * <p>
+     * 该字段用于指定要创建或修改的部门编号，若为创建则无需传入。
+     * </p>
+     */
     private Long id;
 
-    @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    /**
+     * 部门名称
+     * <p>
+     * 部门名称不能为空，且长度不能超过 30 个字符。
+     * </p>
+     */
     @NotBlank(message = "部门名称不能为空")
     @Size(max = 30, message = "部门名称长度不能超过 30 个字符")
     private String name;
 
-    @Schema(description = "父部门 ID", example = "1024")
+    /**
+     * 父部门 ID
+     * <p>
+     * 可为空，若该部门为顶级部门，则无需填写该字段。
+     * </p>
+     */
     private Long parentId;
 
-    @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 显示顺序
+     * <p>
+     * 部门在列表中的显示顺序，不能为空。
+     * </p>
+     */
     @NotNull(message = "显示顺序不能为空")
     private Integer sort;
 
-    @Schema(description = "负责人的用户编号", example = "2048")
+    /**
+     * 负责人的用户编号
+     * <p>
+     * 可为空，若该部门没有负责人则无需填写。
+     * </p>
+     */
     private Long leaderUserId;
 
-    @Schema(description = "联系电话", example = "15601691000")
-    @Size(max = 11, message = "联系电话长度不能超过11个字符")
+    /**
+     * 联系电话
+     * <p>
+     * 可为空，但若填写则需要符合格式要求，且长度不能超过 11 个字符。
+     * </p>
+     */
+    @Size(max = 11, message = "联系电话长度不能超过 11 个字符")
     private String phone;
 
-    @Schema(description = "邮箱", example = "income@iocoder.cn")
+    /**
+     * 邮箱
+     * <p>
+     * 可为空，若填写则必须符合邮箱格式，且长度不能超过 50 个字符。
+     * </p>
+     */
     @Email(message = "邮箱格式不正确")
     @Size(max = 50, message = "邮箱长度不能超过 50 个字符")
     private String email;
 
-    @Schema(description = "状态,见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 状态
+     * <p>
+     * 该字段表示部门的当前状态，值必须是 {@link CommonStatusEnum} 中的有效值，不能为空。
+     * </p>
+     */
     @NotNull(message = "状态不能为空")
     @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
     private Integer status;

@@ -1,36 +1,57 @@
 package cn.life.income.module.system.controller.admin.oauth2.vo.user;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - OAuth2 获得用户基本信息 Response VO")
+/**
+ * 管理后台 - OAuth2 获得用户基本信息 Response VO
+ *
+ * 返回用户的基本信息，包括用户编号、账号、昵称、邮箱、手机等信息，
+ * 还包括所在部门和所属岗位的信息。
+ *
+ * @author zengxuebin
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OAuth2UserInfoRespVO {
 
-    @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 用户编号
+     */
     private Long id;
 
-    @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
+    /**
+     * 用户账号
+     */
     private String username;
 
-    @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    /**
+     * 用户昵称
+     */
     private String nickname;
 
-    @Schema(description = "用户邮箱", example = "income@iocoder.cn")
+    /**
+     * 用户邮箱
+     */
     private String email;
-    @Schema(description = "手机号码", example = "15601691300")
+
+    /**
+     * 手机号码
+     */
     private String mobile;
 
-    @Schema(description = "用户性别，参见 SexEnum 枚举类", example = "1")
+    /**
+     * 用户性别，参见 SexEnum 枚举类
+     */
     private Integer sex;
 
-    @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.png")
+    /**
+     * 用户头像
+     */
     private String avatar;
 
     /**
@@ -43,26 +64,38 @@ public class OAuth2UserInfoRespVO {
      */
     private List<Post> posts;
 
-    @Schema(description = "部门")
+    /**
+     * 部门信息
+     */
     @Data
     public static class Dept {
 
-        @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+        /**
+         * 部门编号
+         */
         private Long id;
 
-        @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "研发部")
+        /**
+         * 部门名称
+         */
         private String name;
 
     }
 
-    @Schema(description = "岗位")
+    /**
+     * 岗位信息
+     */
     @Data
     public static class Post {
 
-        @Schema(description = "岗位编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+        /**
+         * 岗位编号
+         */
         private Long id;
 
-        @Schema(description = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "开发")
+        /**
+         * 岗位名称
+         */
         private String name;
 
     }

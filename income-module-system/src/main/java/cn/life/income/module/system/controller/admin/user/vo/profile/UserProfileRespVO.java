@@ -3,57 +3,79 @@ package cn.life.income.module.system.controller.admin.user.vo.profile;
 import cn.life.income.module.system.controller.admin.dept.vo.dept.DeptSimpleRespVO;
 import cn.life.income.module.system.controller.admin.dept.vo.post.PostSimpleRespVO;
 import cn.life.income.module.system.controller.admin.permission.vo.role.RoleSimpleRespVO;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 管理后台 - 用户个人中心信息 Response VO
+ */
 @Data
-@Schema(description = "管理后台 - 用户个人中心信息 Response VO")
 public class UserProfileRespVO {
 
-    @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 用户编号
+     */
     private Long id;
 
-    @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "income")
+    /**
+     * 用户账号
+     */
     private String username;
 
-    @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
+    /**
+     * 用户昵称
+     */
     private String nickname;
 
-    @Schema(description = "用户邮箱", example = "income@iocoder.cn")
+    /**
+     * 用户邮箱
+     */
     private String email;
 
-    @Schema(description = "手机号码", example = "15601691300")
+    /**
+     * 手机号码
+     */
     private String mobile;
 
-    @Schema(description = "用户性别，参见 SexEnum 枚举类", example = "1")
+    /**
+     * 用户性别，参见 SexEnum 枚举类
+     */
     private Integer sex;
 
-    @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.png")
+    /**
+     * 用户头像
+     */
     private String avatar;
 
-    @Schema(description = "最后登录 IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "192.168.1.1")
+    /**
+     * 最后登录 IP
+     */
     private String loginIp;
 
-    @Schema(description = "最后登录时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    /**
+     * 最后登录时间
+     */
     private LocalDateTime loginDate;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
     /**
      * 所属角色
      */
     private List<RoleSimpleRespVO> roles;
+
     /**
      * 所在部门
      */
     private DeptSimpleRespVO dept;
+
     /**
      * 所属岗位数组
      */
     private List<PostSimpleRespVO> posts;
-
 }

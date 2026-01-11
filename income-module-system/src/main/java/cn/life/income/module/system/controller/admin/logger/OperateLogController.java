@@ -12,9 +12,6 @@ import cn.life.income.module.system.controller.admin.logger.vo.operatelog.Operat
 import cn.life.income.module.system.dal.dataobject.logger.OperateLogDO;
 import cn.life.income.module.system.service.logger.OperateLogService;
 import com.fhs.core.trans.anno.TransMethodResult;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -31,7 +28,9 @@ import java.util.List;
 import static cn.life.income.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 操作日志")
+/**
+ * 管理后台 - 操作日志
+ */
 @RestController
 @RequestMapping("/system/operate-log")
 @Validated
@@ -40,17 +39,26 @@ public class OperateLogController {
     @Resource
     private OperateLogService operateLogService;
 
+    /**
+     * 查看操作日志
+     *
+     * @param id 编号
+     * @return 操作日志响应
+     */
     @GetMapping("/get")
-    @Operation(summary = "查看操作日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:operate-log:query')")
     public CommonResult<OperateLogRespVO> getOperateLog(@RequestParam("id") Long id) {
         OperateLogDO operateLog = operateLogService.getOperateLog(id);
         return success(BeanUtils.toBean(operateLog, OperateLogRespVO.class));
     }
 
+    /**
+     * 查看操作日志分页列表
+     *
+     * @param pageReqVO 分页请求参数
+     * @return 分页结果
+     */
     @GetMapping("/page")
-    @Operation(summary = "查看操作日志分页列表")
     @PreAuthorize("@ss.hasPermission('system:operate-log:query')")
     @TransMethodResult
     public CommonResult<PageResult<OperateLogRespVO>> pageOperateLog(@Valid OperateLogPageReqVO pageReqVO) {
@@ -58,7 +66,13 @@ public class OperateLogController {
         return success(BeanUtils.toBean(pageResult, OperateLogRespVO.class));
     }
 
-    @Operation(summary = "导出操作日志")
+    /**
+     * 导出操作日志
+     *
+     * @param response   HTTP 响应
+     * @param exportReqVO 导出请求参数
+     * @throws IOException 如果写入 Excel 文件失败
+     */
     @GetMapping("/export-excel")
     @PreAuthorize("@ss.hasPermission('system:operate-log:export')")
     @TransMethodResult

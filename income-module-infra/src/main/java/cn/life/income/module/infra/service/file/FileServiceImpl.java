@@ -10,7 +10,7 @@ import cn.life.income.framework.common.util.http.HttpUtils;
 import cn.life.income.framework.common.util.object.BeanUtils;
 import cn.life.income.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
 import cn.life.income.module.infra.controller.admin.file.vo.file.FilePageReqVO;
-import cn.life.income.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
+import cn.life.income.module.infra.controller.admin.file.vo.file.FilePreSignedUrlRespVO;
 import cn.life.income.module.infra.dal.dataobject.file.FileDO;
 import cn.life.income.module.infra.dal.mysql.file.FileMapper;
 import cn.life.income.module.infra.framework.file.core.client.FileClient;
@@ -126,7 +126,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @SneakyThrows
-    public FilePresignedUrlRespVO presignPutUrl(String name, String directory) {
+    public FilePreSignedUrlRespVO presignPutUrl(String name, String directory) {
         // 1. 生成上传的 path，需要保证唯一
         String path = generateUploadPath(name, directory);
 
@@ -134,7 +134,7 @@ public class FileServiceImpl implements FileService {
         FileClient fileClient = fileConfigService.getMasterFileClient();
         String uploadUrl = fileClient.presignPutUrl(path);
         String visitUrl = fileClient.presignGetUrl(path, null);
-        return new FilePresignedUrlRespVO().setConfigId(fileClient.getId())
+        return new FilePreSignedUrlRespVO().setConfigId(fileClient.getId())
                 .setPath(path).setUploadUrl(uploadUrl).setUrl(visitUrl);
     }
 

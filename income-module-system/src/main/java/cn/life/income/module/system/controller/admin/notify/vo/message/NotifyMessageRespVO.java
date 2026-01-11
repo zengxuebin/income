@@ -1,49 +1,74 @@
 package cn.life.income.module.system.controller.admin.notify.vo.message;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
-@Schema(description = "管理后台 - 站内信 Response VO")
+/**
+ * 管理后台 - 站内信响应 VO
+ */
 @Data
 public class NotifyMessageRespVO {
 
-    @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 站内信的唯一标识符
+     */
     private Long id;
 
-    @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "25025")
+    /**
+     * 用户编号
+     */
     private Long userId;
 
-    @Schema(description = "用户类型，参见 UserTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 用户类型，参见 UserTypeEnum 枚举
+     */
     private Byte userType;
 
-    @Schema(description = "模版编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "13013")
+    /**
+     * 模版编号
+     */
     private Long templateId;
 
-    @Schema(description = "模板编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
+    /**
+     * 模板编码
+     */
     private String templateCode;
 
-    @Schema(description = "模版发送人名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
+    /**
+     * 模版发送人名称
+     */
     private String templateNickname;
 
-    @Schema(description = "模版内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "测试内容")
+    /**
+     * 模版内容
+     */
     private String templateContent;
 
-    @Schema(description = "模版类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
+    /**
+     * 模版类型
+     */
     private Integer templateType;
 
-    @Schema(description = "模版参数", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 模版参数
+     */
     private Map<String, Object> templateParams;
 
-    @Schema(description = "是否已读", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
+    /**
+     * 是否已读
+     */
     private Boolean readStatus;
 
-    @Schema(description = "阅读时间")
+    /**
+     * 阅读时间
+     */
     private LocalDateTime readTime;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
 }

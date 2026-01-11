@@ -10,9 +10,6 @@ import cn.life.income.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
 import cn.life.income.module.infra.controller.admin.job.vo.log.JobLogRespVO;
 import cn.life.income.module.infra.dal.dataobject.job.JobLogDO;
 import cn.life.income.module.infra.service.job.JobLogService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -29,7 +26,9 @@ import java.util.List;
 import static cn.life.income.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 定时任务日志")
+/**
+ * 管理后台 - 定时任务日志
+ */
 @RestController
 @RequestMapping("/infra/job-log")
 @Validated
@@ -38,25 +37,40 @@ public class JobLogController {
     @Resource
     private JobLogService jobLogService;
 
+    /**
+     * 获得定时任务日志
+     *
+     * @param id 定时任务日志的编号
+     * @return 返回指定任务日志的详细信息
+     */
     @GetMapping("/get")
-    @Operation(summary = "获得定时任务日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<JobLogRespVO> getJobLog(@RequestParam("id") Long id) {
         JobLogDO jobLog = jobLogService.getJobLog(id);
         return success(BeanUtils.toBean(jobLog, JobLogRespVO.class));
     }
 
+    /**
+     * 获得定时任务日志分页
+     *
+     * @param pageVO 分页请求对象
+     * @return 返回分页结果
+     */
     @GetMapping("/page")
-    @Operation(summary = "获得定时任务日志分页")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<PageResult<JobLogRespVO>> getJobLogPage(@Valid JobLogPageReqVO pageVO) {
         PageResult<JobLogDO> pageResult = jobLogService.getJobLogPage(pageVO);
         return success(BeanUtils.toBean(pageResult, JobLogRespVO.class));
     }
 
+    /**
+     * 导出定时任务日志 Excel
+     *
+     * @param exportReqVO 导出请求参数
+     * @param response HTTP 响应对象，用于输出 Excel 文件
+     * @throws IOException IO 异常
+     */
     @GetMapping("/export-excel")
-    @Operation(summary = "导出定时任务日志 Excel")
     @PreAuthorize("@ss.hasPermission('infra:job:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportJobLogExcel(@Valid JobLogPageReqVO exportReqVO,

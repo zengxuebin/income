@@ -20,8 +20,6 @@ import cn.life.income.framework.web.config.WebProperties;
 import cn.life.income.framework.web.core.filter.ApiRequestFilter;
 import cn.life.income.framework.web.core.util.WebFrameworkUtils;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -144,14 +142,10 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
 
         // 操作模块
         if (handlerMethod != null) {
-            Tag tagAnnotation = handlerMethod.getBeanType().getAnnotation(Tag.class);
-            Operation operationAnnotation = handlerMethod.getMethodAnnotation(Operation.class);
             String operateModule = accessLogAnnotation != null && StrUtil.isNotBlank(accessLogAnnotation.operateModule()) ?
-                    accessLogAnnotation.operateModule() :
-                    tagAnnotation != null ? StrUtil.nullToDefault(tagAnnotation.name(), tagAnnotation.description()) : null;
+                    accessLogAnnotation.operateModule() : null;
             String operateName = accessLogAnnotation != null && StrUtil.isNotBlank(accessLogAnnotation.operateName()) ?
-                    accessLogAnnotation.operateName() :
-                    operationAnnotation != null ? operationAnnotation.summary() : null;
+                    accessLogAnnotation.operateName() : null;
             OperateTypeEnum operateType = accessLogAnnotation != null && accessLogAnnotation.operateType().length > 0 ?
                     accessLogAnnotation.operateType()[0] : parseOperateLogType(request);
             accessLog.setOperateModule(operateModule).setOperateName(operateName).setOperateType(operateType.getType());

@@ -12,10 +12,6 @@ import cn.life.income.module.infra.controller.admin.job.vo.job.JobRespVO;
 import cn.life.income.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
 import cn.life.income.module.infra.dal.dataobject.job.JobDO;
 import cn.life.income.module.infra.service.job.JobService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -32,7 +28,9 @@ import java.util.List;
 import static cn.life.income.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 定时任务")
+/**
+ * 管理后台 - 定时任务 Controller
+ */
 @RestController
 @RequestMapping("/infra/job")
 @Validated
@@ -41,29 +39,42 @@ public class JobController {
     @Resource
     private JobService jobService;
 
+    /**
+     * 创建定时任务
+     *
+     * @param createReqVO 创建定时任务的请求对象
+     * @return 创建结果，返回定时任务 ID
+     * @throws SchedulerException 调度异常
+     */
     @PostMapping("/create")
-    @Operation(summary = "创建定时任务")
     @PreAuthorize("@ss.hasPermission('infra:job:create')")
-    public CommonResult<Long> createJob(@Valid @RequestBody JobSaveReqVO createReqVO)
-            throws SchedulerException {
+    public CommonResult<Long> createJob(@Valid @RequestBody JobSaveReqVO createReqVO) throws SchedulerException {
         return success(jobService.createJob(createReqVO));
     }
 
+    /**
+     * 更新定时任务
+     *
+     * @param updateReqVO 更新定时任务的请求对象
+     * @return 更新结果
+     * @throws SchedulerException 调度异常
+     */
     @PutMapping("/update")
-    @Operation(summary = "更新定时任务")
     @PreAuthorize("@ss.hasPermission('infra:job:update')")
-    public CommonResult<Boolean> updateJob(@Valid @RequestBody JobSaveReqVO updateReqVO)
-            throws SchedulerException {
+    public CommonResult<Boolean> updateJob(@Valid @RequestBody JobSaveReqVO updateReqVO) throws SchedulerException {
         jobService.updateJob(updateReqVO);
         return success(true);
     }
 
+    /**
+     * 更新定时任务的状态
+     *
+     * @param id     定时任务的唯一编号
+     * @param status 定时任务的状态
+     * @return 更新结果
+     * @throws SchedulerException 调度异常
+     */
     @PutMapping("/update-status")
-    @Operation(summary = "更新定时任务的状态")
-    @Parameters({
-            @Parameter(name = "id", description = "编号", required = true, example = "1024"),
-            @Parameter(name = "status", description = "状态", required = true, example = "1"),
-    })
     @PreAuthorize("@ss.hasPermission('infra:job:update')")
     public CommonResult<Boolean> updateJobStatus(@RequestParam(value = "id") Long id, @RequestParam("status") Integer status)
             throws SchedulerException {
@@ -71,62 +82,95 @@ public class JobController {
         return success(true);
     }
 
+    /**
+     * 删除定时任务
+     *
+     * @param id 定时任务的唯一编号
+     * @return 删除结果
+     * @throws SchedulerException 调度异常
+     */
     @DeleteMapping("/delete")
-    @Operation(summary = "删除定时任务")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:delete')")
-    public CommonResult<Boolean> deleteJob(@RequestParam("id") Long id)
-            throws SchedulerException {
+    public CommonResult<Boolean> deleteJob(@RequestParam("id") Long id) throws SchedulerException {
         jobService.deleteJob(id);
         return success(true);
     }
 
+    /**
+     * 批量删除定时任务
+     *
+     * @param ids 定时任务的唯一编号列表
+     * @return 批量删除结果
+     * @throws SchedulerException 调度异常
+     */
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除定时任务")
-    @Parameter(name = "ids", description = "编号列表", required = true)
     @PreAuthorize("@ss.hasPermission('infra:job:delete')")
-    public CommonResult<Boolean> deleteJobList(@RequestParam("ids") List<Long> ids)
-            throws SchedulerException {
+    public CommonResult<Boolean> deleteJobList(@RequestParam("ids") List<Long> ids) throws SchedulerException {
         jobService.deleteJobList(ids);
         return success(true);
     }
 
+    /**
+     * 触发定时任务
+     *
+     * @param id 定时任务的唯一编号
+     * @return 触发结果
+     * @throws SchedulerException 调度异常
+     */
     @PutMapping("/trigger")
-    @Operation(summary = "触发定时任务")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:trigger')")
     public CommonResult<Boolean> triggerJob(@RequestParam("id") Long id) throws SchedulerException {
         jobService.triggerJob(id);
         return success(true);
     }
 
+    /**
+     * 同步定时任务
+     *
+     * @return 同步结果
+     * @throws SchedulerException 调度异常
+     */
     @PostMapping("/sync")
-    @Operation(summary = "同步定时任务")
     @PreAuthorize("@ss.hasPermission('infra:job:create')")
     public CommonResult<Boolean> syncJob() throws SchedulerException {
         jobService.syncJob();
         return success(true);
     }
 
+    /**
+     * 获取定时任务信息
+     *
+     * @param id 定时任务的唯一编号
+     * @return 定时任务信息
+     */
     @GetMapping("/get")
-    @Operation(summary = "获得定时任务")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<JobRespVO> getJob(@RequestParam("id") Long id) {
         JobDO job = jobService.getJob(id);
         return success(BeanUtils.toBean(job, JobRespVO.class));
     }
 
+    /**
+     * 获取定时任务分页
+     *
+     * @param pageVO 定时任务分页请求对象
+     * @return 定时任务分页结果
+     */
     @GetMapping("/page")
-    @Operation(summary = "获得定时任务分页")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<PageResult<JobRespVO>> getJobPage(@Valid JobPageReqVO pageVO) {
         PageResult<JobDO> pageResult = jobService.getJobPage(pageVO);
         return success(BeanUtils.toBean(pageResult, JobRespVO.class));
     }
 
+    /**
+     * 导出定时任务 Excel
+     *
+     * @param exportReqVO 导出请求对象
+     * @param response    HTTP 响应
+     * @throws IOException 导出过程中异常
+     */
     @GetMapping("/export-excel")
-    @Operation(summary = "导出定时任务 Excel")
     @PreAuthorize("@ss.hasPermission('infra:job:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportJobExcel(@Valid JobPageReqVO exportReqVO,
@@ -138,12 +182,14 @@ public class JobController {
                 BeanUtils.toBean(list, JobRespVO.class));
     }
 
+    /**
+     * 获取定时任务的下 n 次执行时间
+     *
+     * @param id    定时任务的唯一编号
+     * @param count 次数，默认为 5 次
+     * @return 定时任务的下次执行时间列表
+     */
     @GetMapping("/get_next_times")
-    @Operation(summary = "获得定时任务的下 n 次执行时间")
-    @Parameters({
-            @Parameter(name = "id", description = "编号", required = true, example = "1024"),
-            @Parameter(name = "count", description = "数量", example = "5")
-    })
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<List<LocalDateTime>> getJobNextTimes(
             @RequestParam("id") Long id,

@@ -16,8 +16,6 @@ import cn.life.income.module.system.service.dept.PostService;
 import cn.life.income.module.system.service.permission.PermissionService;
 import cn.life.income.module.system.service.permission.RoleService;
 import cn.life.income.module.system.service.user.AdminUserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +27,9 @@ import java.util.List;
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 import static cn.life.income.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 用户个人中心")
+/**
+ * 管理后台 - 用户个人中心
+ */
 @RestController
 @RequestMapping("/system/user/profile")
 @Validated
@@ -47,9 +47,14 @@ public class UserProfileController {
     @Resource
     private RoleService roleService;
 
+    /**
+     * 获取登录用户信息
+     * 关闭数据权限，避免只查看自己时，查询不到部门。
+     *
+     * @return 登录用户信息
+     */
     @GetMapping("/get")
-    @Operation(summary = "获得登录用户信息")
-    @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
+    @DataPermission(enable = false)
     public CommonResult<UserProfileRespVO> getUserProfile() {
         // 获得用户基本信息
         AdminUserDO user = userService.getUser(getLoginUserId());
@@ -62,15 +67,25 @@ public class UserProfileController {
         return success(UserConvert.INSTANCE.convert(user, userRoles, dept, posts));
     }
 
+    /**
+     * 修改用户个人信息
+     *
+     * @param reqVO 用户个人信息更新请求体
+     * @return 操作结果
+     */
     @PutMapping("/update")
-    @Operation(summary = "修改用户个人信息")
     public CommonResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateReqVO reqVO) {
         userService.updateUserProfile(getLoginUserId(), reqVO);
         return success(true);
     }
 
+    /**
+     * 修改用户个人密码
+     *
+     * @param reqVO 用户密码更新请求体
+     * @return 操作结果
+     */
     @PutMapping("/update-password")
-    @Operation(summary = "修改用户个人密码")
     public CommonResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordReqVO reqVO) {
         userService.updateUserPassword(getLoginUserId(), reqVO);
         return success(true);

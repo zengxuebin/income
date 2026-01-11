@@ -5,59 +5,81 @@ import cn.life.income.framework.excel.core.convert.DictConvert;
 import cn.life.income.module.infra.enums.DictTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 定时任务日志 Response VO")
+/**
+ * 管理后台 - 定时任务日志 Response VO
+ */
 @Data
 @ExcelIgnoreUnannotated
 public class JobLogRespVO {
 
-    @Schema(description = "日志编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 日志编号
+     */
     @ExcelProperty("日志编号")
     private Long id;
 
-    @Schema(description = "任务编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 任务编号
+     */
     @ExcelProperty("任务编号")
     private Long jobId;
 
-    @Schema(description = "处理器的名字", requiredMode = Schema.RequiredMode.REQUIRED, example = "sysUserSessionTimeoutJob")
+    /**
+     * 处理器的名字
+     */
     @ExcelProperty("处理器的名字")
     private String handlerName;
 
-    @Schema(description = "处理器的参数", example = "income")
+    /**
+     * 处理器的参数
+     */
     @ExcelProperty("处理器的参数")
     private String handlerParam;
 
-    @Schema(description = "第几次执行", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 第几次执行
+     */
     @ExcelProperty("第几次执行")
     private Integer executeIndex;
 
-    @Schema(description = "开始执行时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 开始执行时间
+     */
     @ExcelProperty("开始执行时间")
     private LocalDateTime beginTime;
 
-    @Schema(description = "结束执行时间")
+    /**
+     * 结束执行时间
+     */
     @ExcelProperty("结束执行时间")
     private LocalDateTime endTime;
 
-    @Schema(description = "执行时长", example = "123")
+    /**
+     * 执行时长（单位：秒）
+     */
     @ExcelProperty("执行时长")
     private Integer duration;
 
-    @Schema(description = "任务状态，参见 JobLogStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 任务状态，参见 JobLogStatusEnum 枚举
+     */
     @ExcelProperty(value = "任务状态", converter = DictConvert.class)
     @DictFormat(DictTypeConstants.JOB_LOG_STATUS)
     private Integer status;
 
-    @Schema(description = "结果数据", example = "执行成功")
+    /**
+     * 结果数据（例如："执行成功"）
+     */
     @ExcelProperty("结果数据")
     private String result;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     */
     @ExcelProperty("创建时间")
     private LocalDateTime createTime;
-
 }

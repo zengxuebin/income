@@ -1,39 +1,63 @@
 package cn.life.income.module.system.controller.admin.dept.vo.dept;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 部门信息 Response VO")
+/**
+ * 管理后台 - 部门信息 Response VO
+ */
 @Data
 public class DeptRespVO {
 
-    @Schema(description = "部门编号", example = "1024")
+    /**
+     * 部门编号
+     */
     private Long id;
 
-    @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    /**
+     * 部门名称
+     * 必填字段
+     */
     private String name;
 
-    @Schema(description = "父部门 ID", example = "1024")
+    /**
+     * 父部门 ID
+     */
     private Long parentId;
 
-    @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 显示顺序
+     * 必填字段
+     */
     private Integer sort;
 
-    @Schema(description = "负责人的用户编号", example = "2048")
+    /**
+     * 负责人的用户编号
+     */
     private Long leaderUserId;
 
-    @Schema(description = "联系电话", example = "15601691000")
+    /**
+     * 联系电话
+     */
     private String phone;
 
-    @Schema(description = "邮箱", example = "income@iocoder.cn")
+    /**
+     * 邮箱
+     */
     private String email;
 
-    @Schema(description = "状态,见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 状态，参见 CommonStatusEnum 枚举
+     * 必填字段
+     */
     private Integer status;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    /**
+     * 创建时间
+     * 时间戳格式
+     * 必填字段
+     */
     private LocalDateTime createTime;
 
 }

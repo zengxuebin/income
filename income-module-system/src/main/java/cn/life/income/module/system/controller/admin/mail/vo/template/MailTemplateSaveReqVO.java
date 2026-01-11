@@ -1,46 +1,84 @@
 package cn.life.income.module.system.controller.admin.mail.vo.template;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "管理后台 - 邮件模版创建/修改 Request VO")
+/**
+ * 管理后台 - 邮件模板创建/修改请求对象
+ *
+ * 用于接收前端传递的邮件模板数据，在创建或修改邮件模板时使用。
+ */
 @Data
 public class MailTemplateSaveReqVO {
 
-    @Schema(description = "编号", example = "1024")
+    /**
+     * 编号
+     *
+     * 唯一标识一个邮件模板的ID，在更新操作时使用。
+     */
     private Long id;
 
-    @Schema(description = "模版名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "测试名字")
+    /**
+     * 模板名称
+     *
+     * 邮件模板的名称，不能为空。
+     */
     @NotNull(message = "名称不能为空")
     private String name;
 
-    @Schema(description = "模版编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "test")
-    @NotNull(message = "模版编号不能为空")
+    /**
+     * 模板编号
+     *
+     * 唯一标识一个邮件模板的编号，不能为空。
+     */
+    @NotNull(message = "模板编号不能为空")
     private String code;
 
-    @Schema(description = "发送的邮箱账号编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 发送的邮箱账号编号
+     *
+     * 表示该模板使用的邮箱账号的编号，不能为空。
+     */
     @NotNull(message = "发送的邮箱账号编号不能为空")
     private Long accountId;
 
-    @Schema(description = "发送人名称", example = "芋头")
+    /**
+     * 发送人名称
+     *
+     * 邮件模板中发件人的名称，非必填项。
+     */
     private String nickname;
 
-    @Schema(description = "标题", requiredMode = Schema.RequiredMode.REQUIRED, example = "注册成功")
+    /**
+     * 邮件标题
+     *
+     * 邮件模板的标题，不能为空。
+     */
     @NotEmpty(message = "标题不能为空")
     private String title;
 
-    @Schema(description = "内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "你好，注册成功啦")
+    /**
+     * 邮件内容
+     *
+     * 邮件模板的内容，不能为空。
+     */
     @NotEmpty(message = "内容不能为空")
     private String content;
 
-    @Schema(description = "状态，参见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 状态
+     *
+     * 邮件模板的状态，参见 `CommonStatusEnum` 枚举，不能为空。
+     */
     @NotNull(message = "状态不能为空")
     private Integer status;
 
-    @Schema(description = "备注", example = "奥特曼")
+    /**
+     * 备注
+     *
+     * 邮件模板的备注信息，非必填项。
+     */
     private String remark;
-
 }

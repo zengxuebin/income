@@ -2,80 +2,137 @@ package cn.life.income.module.system.controller.admin.oauth2.vo.client;
 
 import cn.hutool.core.util.StrUtil;
 import cn.life.income.framework.common.util.json.JsonUtils;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import org.hibernate.validator.constraints.URL;
-
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import org.hibernate.validator.constraints.URL;
+
 import java.util.List;
 
-@Schema(description = "管理后台 - OAuth2 客户端创建/修改 Request VO")
+/**
+ * 管理后台 - OAuth2 客户端创建/修改请求 VO (Value Object)
+ * 用于接收前端传入的 OAuth2 客户端的创建和修改请求。
+ */
 @Data
 public class OAuth2ClientSaveReqVO {
 
-    @Schema(description = "编号", example = "1024")
+    /**
+     * 客户端编号
+     * 唯一标识每个 OAuth2 客户端。
+     */
     private Long id;
 
-    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
+    /**
+     * 客户端编号
+     * 该字段是必填项，表示客户端的唯一标识符。
+     */
     @NotNull(message = "客户端编号不能为空")
     private String clientId;
 
-    @Schema(description = "客户端密钥", requiredMode = Schema.RequiredMode.REQUIRED, example = "fan")
+    /**
+     * 客户端密钥
+     * 该字段是必填项，表示 OAuth2 客户端的密钥。
+     */
     @NotNull(message = "客户端密钥不能为空")
     private String secret;
 
-    @Schema(description = "应用名", requiredMode = Schema.RequiredMode.REQUIRED, example = "土豆")
+    /**
+     * 应用名
+     * 该字段是必填项，表示应用的名称。
+     */
     @NotNull(message = "应用名不能为空")
     private String name;
 
-    @Schema(description = "应用图标", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn/xx.png")
+    /**
+     * 应用图标
+     * 该字段是必填项，表示应用的图标 URL 地址。
+     */
     @NotNull(message = "应用图标不能为空")
     @URL(message = "应用图标的地址不正确")
     private String logo;
 
-    @Schema(description = "应用描述", example = "我是一个应用")
+    /**
+     * 应用描述
+     * 该字段是可选项，用于提供应用的简短描述。
+     */
     private String description;
 
-    @Schema(description = "状态，参见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 状态
+     * 该字段是必填项，表示 OAuth2 客户端的状态。
+     * 状态参考枚举 `CommonStatusEnum`。
+     */
     @NotNull(message = "状态不能为空")
     private Integer status;
 
-    @Schema(description = "访问令牌的有效期", requiredMode = Schema.RequiredMode.REQUIRED, example = "8640")
+    /**
+     * 访问令牌的有效期
+     * 该字段是必填项，表示访问令牌的有效时间（单位：秒）。
+     */
     @NotNull(message = "访问令牌的有效期不能为空")
     private Integer accessTokenValiditySeconds;
 
-    @Schema(description = "刷新令牌的有效期", requiredMode = Schema.RequiredMode.REQUIRED, example = "8640000")
+    /**
+     * 刷新令牌的有效期
+     * 该字段是必填项，表示刷新令牌的有效时间（单位：秒）。
+     */
     @NotNull(message = "刷新令牌的有效期不能为空")
     private Integer refreshTokenValiditySeconds;
 
-    @Schema(description = "可重定向的 URI 地址", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn")
+    /**
+     * 可重定向的 URI 地址
+     * 该字段是必填项，表示允许的重定向 URI 列表。
+     */
     @NotNull(message = "可重定向的 URI 地址不能为空")
     private List<@NotEmpty(message = "重定向的 URI 不能为空") @URL(message = "重定向的 URI 格式不正确") String> redirectUris;
 
-    @Schema(description = "授权类型，参见 OAuth2GrantTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "password")
+    /**
+     * 授权类型
+     * 该字段是必填项，表示授权类型列表，参考 `OAuth2GrantTypeEnum` 枚举。
+     */
     @NotNull(message = "授权类型不能为空")
     private List<String> authorizedGrantTypes;
 
-    @Schema(description = "授权范围", example = "user_info")
+    /**
+     * 授权范围
+     * 该字段是可选项，表示允许的授权范围。
+     */
     private List<String> scopes;
 
-    @Schema(description = "自动通过的授权范围", example = "user_info")
+    /**
+     * 自动通过的授权范围
+     * 该字段是可选项，表示无需用户授权即可通过的授权范围。
+     */
     private List<String> autoApproveScopes;
 
-    @Schema(description = "权限", example = "system:user:query")
+    /**
+     * 权限
+     * 该字段是可选项，表示应用所需的权限列表。
+     */
     private List<String> authorities;
 
-    @Schema(description = "资源", example = "1024")
+    /**
+     * 资源
+     * 该字段是可选项，表示 OAuth2 客户端支持的资源。
+     */
     private List<String> resourceIds;
 
-    @Schema(description = "附加信息", example = "{yunai: true}")
+    /**
+     * 附加信息
+     * 该字段是可选项，表示额外的 JSON 格式的附加信息。
+     * 必须符合 JSON 格式。
+     */
     private String additionalInformation;
 
+    /**
+     * 验证附加信息是否符合 JSON 格式。
+     * 如果附加信息不为空，必须是有效的 JSON 格式。
+     *
+     * @return 如果附加信息符合 JSON 格式，返回 true；否则返回 false。
+     */
     @AssertTrue(message = "附加信息必须是 JSON 格式")
     public boolean isAdditionalInformationJson() {
         return StrUtil.isEmpty(additionalInformation) || JsonUtils.isJson(additionalInformation);
     }
-
 }

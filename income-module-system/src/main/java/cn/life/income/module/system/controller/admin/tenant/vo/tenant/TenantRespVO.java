@@ -5,51 +5,69 @@ import cn.idev.excel.annotation.ExcelProperty;
 import cn.life.income.framework.excel.core.annotations.DictFormat;
 import cn.life.income.framework.excel.core.convert.DictConvert;
 import cn.life.income.module.system.enums.DictTypeConstants;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - 租户 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class TenantRespVO {
 
-    @Schema(description = "租户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 租户编号
+     */
     @ExcelProperty("租户编号")
     private Long id;
 
-    @Schema(description = "租户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    /**
+     * 租户名
+     */
     @ExcelProperty("租户名")
     private String name;
 
-    @Schema(description = "联系人", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
+    /**
+     * 联系人
+     */
     @ExcelProperty("联系人")
     private String contactName;
 
-    @Schema(description = "联系手机", example = "15601691300")
+    /**
+     * 联系手机
+     */
     @ExcelProperty("联系手机")
     private String contactMobile;
 
-    @Schema(description = "租户状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 租户状态
+     */
     @ExcelProperty(value = "状态", converter = DictConvert.class)
     @DictFormat(DictTypeConstants.COMMON_STATUS)
     private Integer status;
 
-    @Schema(description = "绑定域名数组", example = "https://www.iocoder.cn")
+    /**
+     * 绑定域名数组
+     */
     private List<String> websites;
 
-    @Schema(description = "租户套餐编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 租户套餐编号
+     */
     private Long packageId;
 
-    @Schema(description = "过期时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 过期时间
+     */
     private LocalDateTime expireTime;
 
-    @Schema(description = "账号数量", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 账号数量
+     */
     private Integer accountCount;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     */
     @ExcelProperty("创建时间")
     private LocalDateTime createTime;
 

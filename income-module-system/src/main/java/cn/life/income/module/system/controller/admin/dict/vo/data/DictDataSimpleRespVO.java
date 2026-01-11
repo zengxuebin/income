@@ -1,25 +1,41 @@
 package cn.life.income.module.system.controller.admin.dict.vo.data;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 数据字典精简 Response VO")
+/**
+ * 管理后台 - 数据字典精简 Response VO
+ */
 @Data
 public class DictDataSimpleRespVO {
 
-    @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "gender")
+    /**
+     * 字典类型
+     * 示例值: gender
+     */
     private String dictType;
 
-    @Schema(description = "字典键值", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 字典键值
+     * 示例值: 1
+     */
     private String value;
 
-    @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "男")
+    /**
+     * 字典标签
+     * 示例值: 男
+     */
     private String label;
 
-    @Schema(description = "颜色类型，default、primary、success、info、warning、danger", example = "default")
+    /**
+     * 颜色类型，default、primary、success、info、warning、danger
+     * 示例值: default
+     */
     private String colorType;
 
-    @Schema(description = "css 样式", example = "btn-visible")
+    /**
+     * css 样式
+     * 示例值: btn-visible
+     */
     private String cssClass;
 
 }

@@ -1,22 +1,41 @@
 package cn.life.income.module.system.controller.admin.dept.vo.post;
 
+import cn.life.income.framework.common.enums.CommonStatusEnum;
 import cn.life.income.framework.common.pojo.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Schema(description = "管理后台 - 岗位分页 Request VO")
+/**
+ * 管理后台 - 岗位分页请求数据传输对象 (Request VO)
+ * <p>
+ * 该类用于表示岗位分页查询的请求参数，包括岗位编码、岗位名称、展示状态等字段。
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PostPageReqVO extends PageParam {
 
-    @Schema(description = "岗位编码，模糊匹配", example = "income")
+    /**
+     * 岗位编码
+     * <p>
+     * 用于模糊匹配岗位编码，支持根据岗位编码进行查询。
+     * </p>
+     */
     private String code;
 
-    @Schema(description = "岗位名称，模糊匹配", example = "芋道")
+    /**
+     * 岗位名称
+     * <p>
+     * 用于模糊匹配岗位名称，支持根据岗位名称进行查询。
+     * </p>
+     */
     private String name;
 
-    @Schema(description = "展示状态，参见 CommonStatusEnum 枚举类", example = "1")
+    /**
+     * 展示状态
+     * <p>
+     * 用于查询岗位的展示状态，参见 {@link CommonStatusEnum} 枚举类，支持状态过滤。
+     * </p>
+     */
     private Integer status;
-
 }

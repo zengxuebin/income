@@ -1,41 +1,69 @@
 package cn.life.income.module.system.controller.admin.sms.vo.channel;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import org.hibernate.validator.constraints.URL;
-
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.URL;
+import lombok.Data;
 
-@Schema(description = "管理后台 - 短信渠道创建/修改 Request VO")
+/**
+ * 短信渠道创建/修改请求对象
+ */
 @Data
 public class SmsChannelSaveReqVO {
 
-    @Schema(description = "编号", example = "1024")
+    /**
+     * 短信渠道编号
+     */
     private Long id;
 
-    @Schema(description = "短信签名", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道源码")
+    /**
+     * 短信签名
+     */
     @NotNull(message = "短信签名不能为空")
     private String signature;
 
-    @Schema(description = "渠道编码，参见 SmsChannelEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "YUN_PIAN")
+    /**
+     * 渠道编码，参见 SmsChannelEnum 枚举类
+     *
+     * 渠道编码
+     */
     @NotNull(message = "渠道编码不能为空")
     private String code;
 
-    @Schema(description = "启用状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    /**
+     * 启用状态
+     *
+     * 启用状态
+     */
     @NotNull(message = "启用状态不能为空")
     private Integer status;
 
-    @Schema(description = "备注", example = "好吃！")
+    /**
+     * 备注
+     *
+     * 备注
+     */
     private String remark;
 
-    @Schema(description = "短信 API 的账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "income")
+    /**
+     * 短信 API 的账号
+     *
+     * 短信 API 账号
+     */
     @NotNull(message = "短信 API 的账号不能为空")
     private String apiKey;
 
-    @Schema(description = "短信 API 的密钥", example = "yuanma")
+    /**
+     * 短信 API 的密钥
+     *
+     * 短信 API 密钥
+     */
     private String apiSecret;
 
-    @Schema(description = "短信发送回调 URL", example = "http://www.iocoder.cn")
+    /**
+     * 短信发送回调 URL
+     *
+     * 回调 URL
+     */
     @URL(message = "回调 URL 格式不正确")
     private String callbackUrl;
 

@@ -1,39 +1,84 @@
 package cn.life.income.module.system.controller.admin.mail.vo.account;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 邮箱账号 Response VO")
+/**
+ * 管理后台 - 邮箱账号 Response VO
+ */
 @Data
 public class MailAccountRespVO {
 
-    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 编号
+     *
+     * 邮箱账号的唯一标识符。通常用于查询或标识特定的邮箱账号。
+     * 示例：1024
+     */
     private Long id;
 
-    @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "incomeyuanma@123.com")
+    /**
+     * 邮箱
+     *
+     * 邮箱账号的邮箱地址。用于邮件发送和接收。
+     * 示例：incomeyuanma@123.com
+     */
     private String mail;
 
-    @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "income")
+    /**
+     * 用户名
+     *
+     * 邮箱账号的用户名。用于登录或其他认证目的。
+     * 示例：income
+     */
     private String username;
 
-    @Schema(description = "密码", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
+    /**
+     * 密码
+     *
+     * 邮箱账号的密码。用于验证用户身份。
+     * 示例：123456
+     */
     private String password;
 
-    @Schema(description = "SMTP 服务器域名", requiredMode = Schema.RequiredMode.REQUIRED, example = "www.iocoder.cn")
+    /**
+     * SMTP 服务器域名
+     *
+     * 用于邮件发送的 SMTP 服务器的域名。
+     * 示例：www.iocoder.cn
+     */
     private String host;
 
-    @Schema(description = "SMTP 服务器端口", requiredMode = Schema.RequiredMode.REQUIRED, example = "80")
+    /**
+     * SMTP 服务器端口
+     *
+     * 用于邮件发送的 SMTP 服务器端口号。
+     * 示例：80
+     */
     private Integer port;
 
-    @Schema(description = "是否开启 ssl", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
+    /**
+     * 是否开启 ssl
+     *
+     * 是否启用 SSL 加密连接，确保邮件传输的安全性。
+     * 示例：true
+     */
     private Boolean sslEnable;
 
-    @Schema(description = "是否开启 starttls", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
+    /**
+     * 是否开启 starttls
+     *
+     * 是否启用 STARTTLS 协议来提升邮件传输的安全性。
+     * 示例：true
+     */
     private Boolean starttlsEnable;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    /**
+     * 创建时间
+     *
+     * 邮箱账号的创建时间，记录账号的创建日期。
+     * 示例：2022-01-01T12:00:00
+     */
     private LocalDateTime createTime;
 
 }

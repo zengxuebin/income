@@ -16,10 +16,6 @@ import cn.life.income.module.infra.convert.codegen.CodegenConvert;
 import cn.life.income.module.infra.dal.dataobject.codegen.CodegenColumnDO;
 import cn.life.income.module.infra.dal.dataobject.codegen.CodegenTableDO;
 import cn.life.income.module.infra.service.codegen.CodegenService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -37,7 +33,9 @@ import static cn.life.income.framework.common.pojo.CommonResult.success;
 import static cn.life.income.framework.security.core.util.SecurityFrameworkUtils.getLoginUserNickname;
 import static cn.life.income.module.infra.framework.file.core.utils.FileTypeUtils.writeAttachment;
 
-@Tag(name = "管理后台 - 代码生成器")
+/**
+ * 管理后台 - 代码生成器
+ */
 @RestController
 @RequestMapping("/infra/codegen")
 @Validated
@@ -46,13 +44,16 @@ public class CodegenController {
     @Resource
     private CodegenService codegenService;
 
+    /**
+     * 获得数据库自带的表定义列表
+     * 会过滤掉已经导入 Codegen 的表
+     *
+     * @param dataSourceConfigId 数据源配置的编号，例如：1
+     * @param name 表名，模糊匹配，例如：income
+     * @param comment 描述，模糊匹配，例如：芋道
+     * @return 表定义列表
+     */
     @GetMapping("/db/table/list")
-    @Operation(summary = "获得数据库自带的表定义列表", description = "会过滤掉已经导入 Codegen 的表")
-    @Parameters({
-            @Parameter(name = "dataSourceConfigId", description = "数据源配置的编号", required = true, example = "1"),
-            @Parameter(name = "name", description = "表名，模糊匹配", example = "income"),
-            @Parameter(name = "comment", description = "描述，模糊匹配", example = "芋道")
-    })
     @PreAuthorize("@ss.hasPermission('infra:codegen:query')")
     public CommonResult<List<DatabaseTableRespVO>> getDatabaseTableList(
             @RequestParam(value = "dataSourceConfigId") Long dataSourceConfigId,
@@ -61,26 +62,39 @@ public class CodegenController {
         return success(codegenService.getDatabaseTableList(dataSourceConfigId, name, comment));
     }
 
+    /**
+     * 获得表定义列表
+     *
+     * @param dataSourceConfigId 数据源配置的编号，例如：1
+     * @return 表定义列表
+     */
     @GetMapping("/table/list")
-    @Operation(summary = "获得表定义列表")
-    @Parameter(name = "dataSourceConfigId", description = "数据源配置的编号", required = true, example = "1")
     @PreAuthorize("@ss.hasPermission('infra:codegen:query')")
     public CommonResult<List<CodegenTableRespVO>> getCodegenTableList(@RequestParam(value = "dataSourceConfigId") Long dataSourceConfigId) {
         List<CodegenTableDO> list = codegenService.getCodegenTableList(dataSourceConfigId);
         return success(BeanUtils.toBean(list, CodegenTableRespVO.class));
     }
 
+    /**
+     * 获得表定义分页
+     *
+     * @param pageReqVO 分页请求参数
+     * @return 表定义分页结果
+     */
     @GetMapping("/table/page")
-    @Operation(summary = "获得表定义分页")
     @PreAuthorize("@ss.hasPermission('infra:codegen:query')")
     public CommonResult<PageResult<CodegenTableRespVO>> getCodegenTablePage(@Valid CodegenTablePageReqVO pageReqVO) {
         PageResult<CodegenTableDO> pageResult = codegenService.getCodegenTablePage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, CodegenTableRespVO.class));
     }
 
+    /**
+     * 获得表和字段的明细
+     *
+     * @param tableId 表编号，例如：1024
+     * @return 表和字段的明细
+     */
     @GetMapping("/detail")
-    @Operation(summary = "获得表和字段的明细")
-    @Parameter(name = "tableId", description = "表编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:codegen:query')")
     public CommonResult<CodegenDetailRespVO> getCodegenDetail(@RequestParam("tableId") Long tableId) {
         CodegenTableDO table = codegenService.getCodegenTable(tableId);
@@ -89,14 +103,24 @@ public class CodegenController {
         return success(CodegenConvert.INSTANCE.convert(table, columns));
     }
 
-    @Operation(summary = "基于数据库的表结构，创建代码生成器的表和字段定义")
+    /**
+     * 基于数据库的表结构，创建代码生成器的表和字段定义
+     *
+     * @param reqVO 创建请求参数
+     * @return 创建的表编号列表
+     */
     @PostMapping("/create-list")
     @PreAuthorize("@ss.hasPermission('infra:codegen:create')")
     public CommonResult<List<Long>> createCodegenList(@Valid @RequestBody CodegenCreateListReqVO reqVO) {
         return success(codegenService.createCodegenList(getLoginUserNickname(), reqVO));
     }
 
-    @Operation(summary = "更新数据库的表和字段定义")
+    /**
+     * 更新数据库的表和字段定义
+     *
+     * @param updateReqVO 更新请求参数
+     * @return 是否成功
+     */
     @PutMapping("/update")
     @PreAuthorize("@ss.hasPermission('infra:codegen:update')")
     public CommonResult<Boolean> updateCodegen(@Valid @RequestBody CodegenUpdateReqVO updateReqVO) {
@@ -104,45 +128,66 @@ public class CodegenController {
         return success(true);
     }
 
-    @Operation(summary = "基于数据库的表结构，同步数据库的表和字段定义")
+    /**
+     * 基于数据库的表结构，同步数据库的表和字段定义
+     *
+     * @param tableId 表编号，例如：1024
+     * @return 是否成功
+     */
     @PutMapping("/sync-from-db")
-    @Parameter(name = "tableId", description = "表编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:codegen:update')")
     public CommonResult<Boolean> syncCodegenFromDB(@RequestParam("tableId") Long tableId) {
         codegenService.syncCodegenFromDB(tableId);
         return success(true);
     }
 
-    @Operation(summary = "删除数据库的表和字段定义")
+    /**
+     * 删除数据库的表和字段定义
+     *
+     * @param tableId 表编号，例如：1024
+     * @return 是否成功
+     */
     @DeleteMapping("/delete")
-    @Parameter(name = "tableId", description = "表编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:codegen:delete')")
     public CommonResult<Boolean> deleteCodegen(@RequestParam("tableId") Long tableId) {
         codegenService.deleteCodegen(tableId);
         return success(true);
     }
 
-    @Operation(summary = "批量删除数据库的表和字段定义")
+    /**
+     * 批量删除数据库的表和字段定义
+     *
+     * @param tableIds 表编号列表
+     * @return 是否成功
+     */
     @DeleteMapping("/delete-list")
-    @Parameter(name = "tableIds", description = "表编号列表", required = true)
     @PreAuthorize("@ss.hasPermission('infra:codegen:delete')")
     public CommonResult<Boolean> deleteCodegenList(@RequestParam("tableIds") List<Long> tableIds) {
         codegenService.deleteCodegenList(tableIds);
         return success(true);
     }
 
-    @Operation(summary = "预览生成代码")
+    /**
+     * 预览生成代码
+     *
+     * @param tableId 表编号，例如：1024
+     * @return 代码预览列表
+     */
     @GetMapping("/preview")
-    @Parameter(name = "tableId", description = "表编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:codegen:preview')")
     public CommonResult<List<CodegenPreviewRespVO>> previewCodegen(@RequestParam("tableId") Long tableId) {
         Map<String, String> codes = codegenService.generationCodes(tableId);
         return success(CodegenConvert.INSTANCE.convert(codes));
     }
 
-    @Operation(summary = "下载生成代码")
+    /**
+     * 下载生成代码
+     *
+     * @param tableId 表编号，例如：1024
+     * @param response HTTP响应对象
+     * @throws IOException 如果发生IO异常
+     */
     @GetMapping("/download")
-    @Parameter(name = "tableId", description = "表编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:codegen:download')")
     public void downloadCodegen(@RequestParam("tableId") Long tableId,
                                 HttpServletResponse response) throws IOException {

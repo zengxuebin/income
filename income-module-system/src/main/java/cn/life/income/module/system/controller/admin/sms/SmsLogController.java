@@ -10,9 +10,6 @@ import cn.life.income.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
 import cn.life.income.module.system.controller.admin.sms.vo.log.SmsLogRespVO;
 import cn.life.income.module.system.dal.dataobject.sms.SmsLogDO;
 import cn.life.income.module.system.service.sms.SmsLogService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -29,7 +26,9 @@ import java.util.List;
 import static cn.life.income.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static cn.life.income.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信日志")
+/**
+ * 管理后台 - 短信日志管理
+ */
 @RestController
 @RequestMapping("/system/sms-log")
 @Validated
@@ -38,25 +37,37 @@ public class SmsLogController {
     @Resource
     private SmsLogService smsLogService;
 
+    /**
+     * 获得短信日志分页
+     * @param pageReqVO 分页请求参数
+     * @return 短信日志分页结果
+     */
     @GetMapping("/page")
-    @Operation(summary = "获得短信日志分页")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
     public CommonResult<PageResult<SmsLogRespVO>> getSmsLogPage(@Valid SmsLogPageReqVO pageReqVO) {
         PageResult<SmsLogDO> pageResult = smsLogService.getSmsLogPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, SmsLogRespVO.class));
     }
 
+    /**
+     * 根据 ID 获取短信日志
+     * @param id 短信日志的编号
+     * @return 短信日志详情
+     */
     @GetMapping("/get")
-    @Operation(summary = "获得短信日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
     public CommonResult<SmsLogRespVO> getSmsLog(@RequestParam("id") Long id) {
         SmsLogDO smsLog = smsLogService.getSmsLog(id);
         return success(BeanUtils.toBean(smsLog, SmsLogRespVO.class));
     }
 
+    /**
+     * 导出短信日志到 Excel
+     * @param exportReqVO 导出请求参数
+     * @param response HTTP 响应
+     * @throws IOException 如果导出失败
+     */
     @GetMapping("/export-excel")
-    @Operation(summary = "导出短信日志 Excel")
     @PreAuthorize("@ss.hasPermission('system:sms-log:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportSmsLogExcel(@Valid SmsLogPageReqVO exportReqVO,
@@ -67,5 +78,4 @@ public class SmsLogController {
         ExcelUtils.write(response, "短信日志.xls", "数据", SmsLogRespVO.class,
                 BeanUtils.toBean(list, SmsLogRespVO.class));
     }
-
 }
