@@ -12,6 +12,7 @@ import cn.life.income.module.system.convert.auth.AuthConvert;
 import cn.life.income.module.system.dal.dataobject.permission.MenuDO;
 import cn.life.income.module.system.dal.dataobject.permission.RoleDO;
 import cn.life.income.module.system.dal.dataobject.user.AdminUserDO;
+import cn.life.income.module.system.enums.ErrorCodeConstants;
 import cn.life.income.module.system.enums.logger.LoginLogTypeEnum;
 import cn.life.income.module.system.service.auth.AdminAuthService;
 import cn.life.income.module.system.service.permission.MenuService;
@@ -125,7 +126,7 @@ public class AuthController {
     public CommonResult<AuthLoginRespVO> register(@RequestBody @Valid AuthRegisterReqVO registerReqVO) {
         /// 临时关闭
 //        return success(authService.register(registerReqVO));
-        return CommonResult.error(FORBIDDEN);
+        return CommonResult.error(ErrorCodeConstants.USER_REGISTER_DISABLED);
     }
 
     // ========== 短信登录相关 ==========
