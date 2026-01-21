@@ -260,7 +260,7 @@ CREATE TABLE `infra_file_config`  (
 -- ----------------------------
 -- Records of infra_file_config
 -- ----------------------------
-INSERT INTO `infra_file_config` VALUES (4, '数据库', 1, '我是数据库', '1', '{\"@class\":\"cn.life.income.module.infra.framework.file.core.client.db.DBFileClientConfig\",\"domain\":\"http://127.0.0.1:8080\"}', '1', '2022-03-15 23:56:24', '1', '2025-11-24 20:57:14', b'0');
+INSERT INTO `infra_file_config` VALUES (4, '数据库', 1, '我是数据库', b'1', '{\"@class\":\"cn.life.income.module.infra.framework.file.core.client.db.DBFileClientConfig\",\"domain\":\"http://127.0.0.1:8080\"}', '1', '2022-03-15 23:56:24', '1', '2025-11-24 20:57:14', b'0');
 -- ----------------------------
 -- Table structure for infra_file_content
 -- ----------------------------
